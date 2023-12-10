@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login</title>
+    
+</head>
+
+<body class="flex justify-center items-center h-screen">
+    
+    <div class="w-1/3 bg-white-200 p-8">
+        <!-- Поля регистрации -->
+        <form>
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2 text-gray-700" for="email">Email:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Введите email">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2 text-gray-700" for="password">Пароль:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Введите пароль">
+            </div>
+            <div class="flex items-center justify-between mb-4">
+                <button id="loginButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Войти
+                </button>
+                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+                    Забыли пароль?
+                </a>
+            </div>
+            <div>
+                <p class="text-sm text-gray-600 mb-2">Нет аккаунта? <a href="/register" class="text-blue-500 hover:text-blue-800">Зарегистрируйтесь здесь</a></p>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById("loginButton").addEventListener("click", function() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+    
+            var xhr = new XMLHttpRequest();
+            var url = "/auth/jwt/login";
+            var params = "grant_type=&username=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&scope=&client_id=&client_secret=";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Auth", "Jwt.Login");
+            xhr.onreadystatechange = function() {
+                console.log("Ready state:", xhr.readyState);
+                console.log("Status:", xhr.status);
+                console.log("Response:", xhr.responseText);
+    
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    console.log("Redirecting to desired URL");
+                    window.location.href = "/validation?email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password);
+                }
+            };
+            xhr.send(params);
+        });
+    </script>
+    
+    
+    
+    
+</body>
+</html>
