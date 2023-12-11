@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+.project-card {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.project-card h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.project-card p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.project-card .button {
+  background-color: #ff4d4d;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+
+.project-card .button:hover {
+  background-color: #ff3333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-card {
+  animation: fadeIn 0.5s ease;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Projects</h1>
+{% for project in projects %}
+  <div class="project-card">
+    <h2>{{ project["name"] }}</h2>
+    <p>{{ project["description"] }}</p>
+    <p>Author: {{ project["author_id"] }}</p>
+    <a href="#" class="button">View Project</a>
+  </div>
+{% endfor %}
+
+<script>
+const buttons = document.querySelectorAll('.button');
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Действия при нажатии на кнопку
+    console.log('Button clicked!');
+  });
+});
+</script>
+
+{% endblock %}

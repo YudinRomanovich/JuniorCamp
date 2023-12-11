@@ -28,4 +28,3 @@ async def get_specific_user(
             "data": None,
             "detail": None
         })
-    

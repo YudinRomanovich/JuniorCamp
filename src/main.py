@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi_users import FastAPIUsers
 from auth.manager import get_user_manager
@@ -6,10 +6,14 @@ from auth.schemas import UserCreate, UserRead
 from auth.base_config import auth_backend
 
 from pages.router import router as router_base
+from projects.router import router as router_proj
+
 
 app = FastAPI()
 
 app.include_router(router_base)
+app.include_router(router_proj)
+
 
 fastapi_users = FastAPIUsers(
     get_user_manager,

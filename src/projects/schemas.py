@@ -9,3 +9,10 @@ class ProjectCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ProjectRead(BaseModel):
+    id: int
+    name: str
+    description: str
+    author_id: int
+    needed_skills: str

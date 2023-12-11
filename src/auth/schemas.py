@@ -12,7 +12,7 @@ class UserRead(schemas.BaseUser[int]):
     is_active: bool = True
     is_superuser: bool = False
     is_verified: bool = False
-    profile_image: bytes
+    profile_image: bytes = None
     
     class Config:
         orm_mode = True
@@ -28,4 +28,4 @@ class UserCreate(schemas.BaseUserCreate):
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
     is_verified: Optional[bool] = False
-
+    profile_image: Optional[bytes] = None
