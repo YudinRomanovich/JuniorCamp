@@ -1,12 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.encoders import jsonable_encoder
 from sqlalchemy import insert, select
 from database import get_async_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from projects.models import project
 from projects.schemas import ProjectCreate
-from auth.base_config import current_user
-from sqlalchemy.orm import Session
 
 
 router = APIRouter(
