@@ -7,10 +7,13 @@ from auth.base_config import auth_backend
 
 from pages.router import router as router_base
 from projects.router import router as router_proj
+from auth.utils import router as router_user
+
 
 
 app = FastAPI()
 
+app.include_router(router_user)
 app.include_router(router_base)
 app.include_router(router_proj)
 

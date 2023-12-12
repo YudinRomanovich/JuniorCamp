@@ -8,7 +8,7 @@ class ProjectCreate(BaseModel):
     needed_skills: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProjectRead(BaseModel):
     id: int

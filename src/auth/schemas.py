@@ -15,7 +15,7 @@ class UserRead(schemas.BaseUser[int]):
     profile_image: bytes = None
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserCreate(schemas.BaseUserCreate):

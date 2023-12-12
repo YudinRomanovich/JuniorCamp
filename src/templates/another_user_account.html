@@ -1,0 +1,38 @@
+{% extends "feed.html" %}
+
+{% block head %}
+<style>
+.profile-container {
+  display: flex;
+  align-items: center;
+}
+
+.profile-image {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.profile-info {
+  font-size: 18px;
+}
+
+.profile-info p {
+  margin-bottom: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+  <img class="profile-image" src="{{ another_user.profile_image if another_user.username != user.username else user.profile_image }}" alt="Profile Image">
+  <div class="profile-info">
+    <p>Username: {{ another_user.username if another_user.username != user.username else user.username }}</p>
+    <p>Profession: {{ another_user.profession if another_user.username != user.username else user.profession }}</p>
+    <p>Skills: {{ another_user.skills if another_user.username != user.username else user.skills }}</p>
+    <p>Email: {{ another_user.email if another_user.username != user.username else user.email }}</p>
+  </div>
+</div>
+{% endblock %}

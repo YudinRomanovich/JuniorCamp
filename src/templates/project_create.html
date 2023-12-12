@@ -1,0 +1,99 @@
+<!-- index.html -->
+{% extends "feed.html" %}
+
+{% block head %}
+  <style>
+    /* Добавьте ваши стили здесь */
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+      margin-top: 50px;
+      animation: form-appear 0.5s ease;
+    }
+    input {
+      margin: 15px 0;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      border: none;
+    }
+    textarea {
+      margin: 15px 0;
+      padding: 10px;
+      width: 100%;
+      height: 150px;
+      box-sizing: border-box;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 20px;
+      margin: 10px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 5px;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+
+    @keyframes form-appear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <form id="projectForm">
+    <input type="text" id="name" placeholder="Название проекта">
+    <textarea id="description" placeholder="Описание проекта"></textarea>
+    <input type="text" id="needed_skills" placeholder="Необходимые навыки">
+    <button type="submit">Создать проект</button>
+  </form>
+
+  <div style="height: 50px;"></div>
+
+  <form id="profileForm">
+    <!-- Ваш код для формы профиля -->
+  </form>
+
+  <script>
+    document.getElementById('projectForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const authorId = parseInt('{{ user.id }}');
+      const formData = {
+        id: int = Math.floor(Math.random() * (100000 - 1000 + 1)) + 1000,
+        name: document.getElementById('name').value,
+        description: document.getElementById('description').value,
+        author_id: authorId,
+        needed_skills: document.getElementById('needed_skills').value
+      };
+
+      fetch('/projects/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = '/projects';
+        } else {
+          alert('Произошла ошибка при создании проекта.');
+        }
+      });
+    });
+    
+    // Ваш код для обработки формы профиля
+    
+  </script>
+{% endblock %}

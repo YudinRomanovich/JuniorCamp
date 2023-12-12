@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "feed.html" %}
 
 {% block head %}
 <style>
@@ -54,12 +54,13 @@
 {% endblock %}
 
 {% block content %}
-<h1>Projects</h1>
+<button><a href="/projects/new">new project</a></button>
 {% for project in projects %}
   <div class="project-card">
     <h2>{{ project["name"] }}</h2>
     <p>{{ project["description"] }}</p>
     <p>Author: {{ project["author_id"] }}</p>
+    <p>Need: {{ project["needed_skills"] }}</p>
     <a href="#" class="button">View Project</a>
   </div>
 {% endfor %}
