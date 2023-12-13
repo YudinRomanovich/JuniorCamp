@@ -7,6 +7,9 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .project-card h2 {
@@ -18,58 +21,116 @@
 .project-card p {
   color: #666;
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.project-card .button {
-  background-color: #ff4d4d;
-  color: #fff;
+.project-card .details {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card .details p {
+  margin-bottom: 5px;
+}
+
+.button-container {
+  position: relative;
+}
+
+.button {
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
   transition: background-color 0.3s ease;
-  display: inline-block;
 }
 
-.project-card .button:hover {
-  background-color: #ff3333;
+.button.new-project {
+  background-color: #4CAF50;
+  color: #fff;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.button.new-project:hover {
+  background-color: #45a049;
 }
 
-.project-card {
-  animation: fadeIn 0.5s ease;
+.button.new-project::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  z-index: -1;
+  transition: transform 0.3s ease;
 }
 
+.button.new-project:hover::before {
+  transform: scale(1.1);
+}
+
+.button.view-project {
+  background-color: #e44724;
+  color: #fff;
+}
+
+.button.view-project:hover {
+  background-color: #e44724;
+}
+
+.button.view-project::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  z-index: -1;
+  transition: transform 0.3s ease;
+}
+
+.button.view-project:hover::before {
+  transform: scale(1.1);
+  
+}
+
+.button-container {
+    margin-left: auto;
+}
 </style>
 {% endblock %}
 
 {% block content %}
-<button><a href="/projects/new">new project</a></button>
-{% for project in projects %}
-  <div class="project-card">
-    <h2>{{ project["name"] }}</h2>
-    <p>{{ project["description"] }}</p>
-    <p>Author: {{ project["author_id"] }}</p>
-    <p>Need: {{ project["needed_skills"] }}</p>
-    <a href="#" class="button">View Project</a>
+<div class="project-card">
+  <div>
+    <h2>New Project</h2>
+    <p>Start a new project today!</p>
   </div>
+  <div class="button-container">
+    <a href="/projects/new" class="button new-project">New Project</a>
+  </div>
+</div>
+
+{% for project in projects %}
+<div class="project-card">
+  <div class="details">
+    <h2>{{ project["name"] }}</h2>
+    <p>{{ project["author_id"] }}</p>
+    <p>{{ project["description"]|truncate(30, True, "…") }}</p>
+    <p>Need: {{ project["needed_skills"] }}</p>
+    <a href="#" class="button view-project">View Project</a>
+  </div>
+</div>
 {% endfor %}
 
 <script>
 const buttons = document.querySelectorAll('.button');
 buttons.forEach(button => {
   button.addEventListener('click', () => {
-    // Действия при нажатии на кнопку
+    // Actions when the button is clicked
     console.log('Button clicked!');
   });
 });

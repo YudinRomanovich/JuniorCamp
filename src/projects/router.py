@@ -11,6 +11,7 @@ router = APIRouter(
     tags=["Projects"]
 )
 
+
 @router.get("/get")
 async def get_all_projects(
     session: AsyncSession = Depends(get_async_session),
@@ -52,13 +53,11 @@ async def get_specific_project(project_id: int, session: AsyncSession = Depends(
                 "description": item[2],
                 "author_id": item[3]
             })
-        
         return {
             "status": "200",
             "data": dict_result[0],
             "detail": None
         }
-
     except Exception:
         raise HTTPException(status_code=500, detail={
             "status": "error",
@@ -66,9 +65,6 @@ async def get_specific_project(project_id: int, session: AsyncSession = Depends(
             "detail": None
         })
     
-
-
-
 
 @router.post("/create")
 async def add_specific_project(new_operation: ProjectCreate, session: AsyncSession = Depends(get_async_session)):
@@ -80,27 +76,3 @@ async def add_specific_project(new_operation: ProjectCreate, session: AsyncSessi
         "data": "Project has been created",
         "detail": None
     }
-
-
-# @router.get("/create_project")
-# async def create_project(
-#     name: str,
-#     description: str,
-#     needed_skills: str,
-#     session: AsyncSession = Depends(get_async_session),
-#     user = Depends(current_user)
-# ):
-#     try:
-#         query = project.insert().values(name = name, description = description, needed_skills = needed_skills, )
-#         result = await session.execute(query)
-#         return {
-#             "status": "success",
-#             "data": result.all,
-#             "detail": None
-#         }
-#     except:
-#         raise HTTPException(status_code=500, detail={
-#             "status": "error",
-#             "data": None,
-#             "detail": None
-#         })

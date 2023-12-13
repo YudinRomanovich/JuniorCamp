@@ -5,11 +5,15 @@
 .profile-container {
   display: flex;
   align-items: center;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-image {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 20px;
@@ -27,12 +31,12 @@
 
 {% block content %}
 <div class="profile-container">
-  <img class="profile-image" src="{{ another_user.profile_image if another_user.username != user.username else user.profile_image }}" alt="Profile Image">
+  <img class="profile-image" src="{{ url_for('static', path='photo.jpg') }}" alt="Profile Image">
   <div class="profile-info">
-    <p>Username: {{ another_user.username if another_user.username != user.username else user.username }}</p>
-    <p>Profession: {{ another_user.profession if another_user.username != user.username else user.profession }}</p>
-    <p>Skills: {{ another_user.skills if another_user.username != user.username else user.skills }}</p>
-    <p>Email: {{ another_user.email if another_user.username != user.username else user.email }}</p>
+    <p style="font-weight: bold;">{{ another_user.username if another_user.username != user.username else user.username }}</p>
+    <p><strong>Profession:</strong> {{ another_user.profession if another_user.username != user.username else user.profession }}</p>
+    <p><strong>Skills:</strong> {{ another_user.skills if another_user.username != user.username else user.skills }}</p>
+    <p><strong>Email:</strong> {{ another_user.email if another_user.username != user.username else user.email }}</p>
   </div>
 </div>
 {% endblock %}

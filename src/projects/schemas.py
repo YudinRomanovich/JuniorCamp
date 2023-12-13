@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class ProjectCreate(BaseModel):
     id: int
     name: str
@@ -9,6 +10,7 @@ class ProjectCreate(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class ProjectRead(BaseModel):
     id: int

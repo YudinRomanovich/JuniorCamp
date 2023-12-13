@@ -5,11 +5,15 @@
 .profile-container {
   display: flex;
   align-items: center;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-image {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 20px;
@@ -22,18 +26,31 @@
 .profile-info p {
   margin-bottom: 10px;
 }
+
+.button.edit-profile {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #bfcf46;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.button.edit-profile:hover {
+  background-color: #286090;
+}
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="profile-container">
-  <img class="profile-image" src="{{ user.profile_image }}" alt="Profile Image">
+  <img class="profile-image" src="{{ url_for('static', path='photo.jpg') }}" alt="Profile Image">
   <div class="profile-info">
-    <p>Username: {{ user.username }}</p>
-    <p>Profession: {{ user.profession }}</p>
-    <p>Skills: {{ user.skills }}</p>
-    <p>Email: {{ user.email }}</p>
+    <p style="font-weight: bold;">{{ user.username }}</p>
+    <p><strong>Profession:</strong> {{ user.profession }}</p>
+    <p><strong>Skills:</strong> {{ user.skills }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <a href="#" class="button edit-profile">Edit Profile</a>
   </div>
 </div>
 {% endblock %}
-

@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from auth.base_config import current_user
 from projects.router import get_all_projects
-from auth.utils import get_specific_user
+from user.router import get_specific_user
 
 router = APIRouter(
     prefix="",
@@ -14,10 +14,14 @@ router = APIRouter(
 def get_user_username(user=Depends(current_user)) -> str:
     username = user.username
     return username
-    
 
 
 templates = Jinja2Templates(directory="templates")
+
+
+@router.get("/edit")
+async def get_edit_page(request: Request, user=Depends(current_user)):
+    return templates.TemplateResponse("edit_profile.html", {"request": request, "user": user})
 
 @router.get("/projects")
 async def get_project_page(request: Request, projects=Depends(get_all_projects), user=Depends(current_user)):
@@ -53,8 +57,19 @@ async def get_validation(email: str, password: str, user=Depends(current_user)):
 
 @router.get("/{username}")
 async def get_account(request: Request, username: str, user=Depends(current_user), another_user=Depends(get_specific_user)):
-    if another_user["data"][0]["username"] == user.username:
-        return templates.TemplateResponse("account.html", {"request": request, "user": user})
-    else:
-        return templates.TemplateResponse("another_user_account.html", {"request": request, "another_user": another_user["data"][0], "user": user})
-
+        try:
+            if another_user["data"] is []:
+                return templates.TemplateResponse("account.html", {"request": request, "user": user})
+            elif another_user["data"][0]["username"] == user.username:
+                return templates.TemplateResponse("account.html", {"request": request, "user": user})
+            else:
+                return templates.TemplateResponse("another_user_account.html", {"request": request, "another_user": another_user["data"][0], "user": user})
+            
+        except:
+            return {
+                "status": "Error",
+                "data": None,
+                "detail": None
+            }
+           
+        

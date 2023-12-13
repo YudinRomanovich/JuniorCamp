@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Table
 from sqlalchemy.orm import Mapped
-
 from database import metadata, Base
 
 
@@ -13,6 +12,7 @@ project = Table(
     Column("author_id", Integer, nullable=False),
     Column("needed_skills", String),
 )
+
 
 class ProjectCreate(Base):
     __tablename__ = "project_create"
