@@ -5,10 +5,22 @@
 .profile-container {
   display: flex;
   align-items: center;
-  background-color: #f2f2f2;
+  background-color: #303030;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fade-in 0.5s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .profile-image {
@@ -30,14 +42,14 @@
 .button.edit-profile {
   padding: 10px 20px;
   border-radius: 5px;
-  background-color: #bfcf46;
+  background-color: #e44724;
   color: #fff;
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
 
 .button.edit-profile:hover {
-  background-color: #286090;
+  background-color: #bd3c1f;
 }
 </style>
 {% endblock %}
@@ -46,11 +58,12 @@
 <div class="profile-container">
   <img class="profile-image" src="{{ url_for('static', path='photo.jpg') }}" alt="Profile Image">
   <div class="profile-info">
-    <p style="font-weight: bold;">{{ user.username }}</p>
-    <p><strong>Profession:</strong> {{ user.profession }}</p>
-    <p><strong>Skills:</strong> {{ user.skills }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p style="font-weight: bold; color: #bd3c1f;">{{ user.username }}</p>
+    <p><strong style="color: #fff;">Profession:</strong> <span style="color: #fff;">{{ user.profession }}</span></p>
+    <p><strong style="color: #fff;">Skills:</strong> <span style="color: #fff;">{{ user.skills }}</span></p>
+    <p><strong style="color: #fff;">Email:</strong> <span style="color: #fff;">{{ user.email }}</span></p>
     <a href="#" class="button edit-profile">Edit Profile</a>
   </div>
 </div>
 {% endblock %}
+

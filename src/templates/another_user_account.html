@@ -2,41 +2,66 @@
 
 {% block head %}
 <style>
-.profile-container {
-  display: flex;
-  align-items: center;
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.profile-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 20px;
-}
-
-.profile-info {
-  font-size: 18px;
-}
-
-.profile-info p {
-  margin-bottom: 10px;
-}
-</style>
+  .profile-container {
+    display: flex;
+    align-items: center;
+    background-color: #303030;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fade-in 0.5s ease;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .profile-info {
+    font-size: 18px;
+  }
+  
+  .profile-info p {
+    margin-bottom: 10px;
+  }
+  
+  .button.edit-profile {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #e44724;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button.edit-profile:hover {
+    background-color: #bd3c1f;
+  }
+  </style>
 {% endblock %}
 
 {% block content %}
 <div class="profile-container">
   <img class="profile-image" src="{{ url_for('static', path='photo.jpg') }}" alt="Profile Image">
   <div class="profile-info">
-    <p style="font-weight: bold;">{{ another_user.username if another_user.username != user.username else user.username }}</p>
-    <p><strong>Profession:</strong> {{ another_user.profession if another_user.username != user.username else user.profession }}</p>
-    <p><strong>Skills:</strong> {{ another_user.skills if another_user.username != user.username else user.skills }}</p>
-    <p><strong>Email:</strong> {{ another_user.email if another_user.username != user.username else user.email }}</p>
+    <p style="font-weight: bold; color: #bd3c1f;">{{ another_user.username if another_user.username != user.username else user.username }}</p>
+    <p><strong style="color: #fff;">Profession:</strong><span style="color: #fff;"> {{ another_user.profession if another_user.username != user.username else user.profession }}</span></p>
+    <p><strong style="color: #fff;">Skills:</strong><span style="color: #fff;"> {{ another_user.skills if another_user.username != user.username else user.skills }}</span></p>
+    <p><strong style="color: #fff;">Email:</strong><span style="color: #fff;"> {{ another_user.email if another_user.username != user.username else user.email }}</span></p>
   </div>
 </div>
 {% endblock %}

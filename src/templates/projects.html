@@ -2,105 +2,97 @@
 
 {% block head %}
 <style>
-.project-card {
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.project-card h2 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.project-card p {
-  color: #666;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.project-card .details {
-  display: flex;
-  flex-direction: column;
-}
-
-.project-card .details p {
-  margin-bottom: 5px;
-}
-
-.button-container {
-  position: relative;
-}
-
-.button {
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.button.new-project {
-  background-color: #4CAF50;
-  color: #fff;
-}
-
-.button.new-project:hover {
-  background-color: #45a049;
-}
-
-.button.new-project::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  z-index: -1;
-  transition: transform 0.3s ease;
-}
-
-.button.new-project:hover::before {
-  transform: scale(1.1);
-}
-
-.button.view-project {
-  background-color: #e44724;
-  color: #fff;
-}
-
-.button.view-project:hover {
-  background-color: #e44724;
-}
-
-.button.view-project::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  z-index: -1;
-  transition: transform 0.3s ease;
-}
-
-.button.view-project:hover::before {
-  transform: scale(1.1);
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   
-}
-
-.button-container {
-    margin-left: auto;
-}
-</style>
+  .project-card {
+    background-color: #303030;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+  }
+  
+  .button-container {
+    position: relative;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button.new-project {
+    background-color: #00a86b;
+    color: #fff;
+  }
+  
+  .button.new-project:hover {
+    background-color: #00995a;
+  }
+  
+  .button.new-project::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-color: #303030;
+    border-radius: 15px;
+    z-index: -1;
+    transition: transform 0.3s ease;
+  }
+  
+  .button.new-project:hover::before {
+    transform: scale(1.1);
+  }
+  
+  .button.view-project {
+    background-color: #e44724;
+    color: #fff;
+  }
+  
+  .button.view-project:hover {
+    background-color: #d33f1f;
+  }
+  
+  .button.view-project::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-color: #303030;
+    border-radius: 15px;
+    z-index: -1;
+    transition: transform 0.3s ease;
+  }
+  
+  .button.view-project:hover::before {
+    transform: scale(1.1);
+  }
+  
+  .button-container {
+      margin-left: auto;
+  }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -121,6 +113,8 @@
     <p>{{ project["author_id"] }}</p>
     <p>{{ project["description"]|truncate(30, True, "…") }}</p>
     <p>Need: {{ project["needed_skills"] }}</p>
+  </div>
+  <div class="button-container">
     <a href="#" class="button view-project">View Project</a>
   </div>
 </div>
