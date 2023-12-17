@@ -8,6 +8,7 @@ from auth.base_config import auth_backend
 from pages.router import router as router_base
 from projects.router import router as router_proj
 from user.router import router as router_user
+from friends.router import router as router_friends
 
 app = FastAPI()
 
@@ -16,6 +17,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(router_user)
 app.include_router(router_base)
 app.include_router(router_proj)
+app.include_router(router_friends)
 
 
 fastapi_users = FastAPIUsers(

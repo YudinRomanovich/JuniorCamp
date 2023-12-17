@@ -1,15 +1,97 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import insert, select
+from sqlalchemy import delete, insert, select, update
 from database import get_async_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from projects.models import project
 from projects.schemas import ProjectCreate
+from auth.base_config import current_user
 
 
 router = APIRouter(
     prefix="/projects",
     tags=["Projects"]
 )
+
+
+@router.delete("/delete")
+async def delete_current_project(
+    current_project_id: int,
+    current_project_author_id: int, 
+    user=Depends(current_user),
+    session: AsyncSession = Depends(get_async_session)
+):
+    if current_project_author_id == user.id:
+        try:
+            stmt = (
+                delete(project)
+                .where(project.c.id == current_project_id)
+            )
+
+            await session.execute(stmt)
+            await session.commit()
+            return {
+                "status": 200,
+                "data": None,
+                "detail": "project deleted"
+            }
+
+        except Exception:
+            raise HTTPException(status_code=500, detail={
+                "status": "error",
+                "data": None,
+                "detail": None
+            })
+    else:
+        return {
+            "status": "Access Denied",
+            "data": None,
+            "detail": "You are not author"
+        }
+
+    
+
+
+@router.put("/edit")
+async def edit_current_project(
+    new_description: str,
+    new_name: str,
+    new_needed_skills: str,
+    current_project_id: int,
+    current_project_author_id: int, 
+    user=Depends(current_user),
+    session: AsyncSession=Depends(get_async_session),
+):
+    if current_project_author_id == user.id:
+        try:
+            stmt = (
+                update(project)
+                .where(project.c.id == current_project_id)
+                .values(
+                    name=new_name,
+                    description=new_description,
+                    needed_skills=new_needed_skills
+                )
+            )
+            await session.execute(stmt)
+            await session.commit()
+            return {
+                "status": 200,
+                "data": None,
+                "detail": "project updated"
+            }
+
+        except Exception:
+            raise HTTPException(status_code=500, detail={
+                "status": "error",
+                "data": None,
+                "detail": None
+            })
+    else:
+        return {
+            "status": "Access Denied",
+            "data": None,
+            "detail": "You are not author"
+        }
 
 
 @router.get("/get")

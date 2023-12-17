@@ -14,7 +14,7 @@ project = Table(
 )
 
 
-class ProjectCreate(Base):
+class Project(Base):
     __tablename__ = "project_create"
 
     id: Mapped[int] = Column(Integer, primary_key=True)
