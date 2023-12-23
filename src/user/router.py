@@ -73,28 +73,47 @@ async def edit_current_user(
 
 @router.get('/get')
 async def get_specific_user(
-    username: str,
+    username: str = None,
+    user_id: int = None,
     session: AsyncSession = Depends(get_async_session)
 ):
     try:
-        query = select(user).where(user.c.username == username)
-        result = await session.execute(query)
-        dict_user = []
-        for item in result.all():
-            dict_user.append({
-                "username": item[3],
-                "profession": item[1],
-                "skills": item[0],
-                "email": item[6],
-            })
-        return {
-            "status": "success",
-            "data": dict_user,
-            "detail": None
-        }
-    except:
+        if not user_id:
+            query = select(user).where(user.c.username == username)
+            result = await session.execute(query)
+            dict_user = []
+            for item in result.all():
+                dict_user.append({
+                    "username": item[3],
+                    "profession": item[1],
+                    "skills": item[0],
+                    "email": item[6],
+                })
+            return {
+                "status": "success",
+                "data": dict_user,
+                "detail": None
+            }
+        else:
+            query = select(user).where(user.c.id == user_id)
+            result = await session.execute(query)
+            dict_user = []
+            for item in result.all():
+                dict_user.append({
+                    "username": item[3],
+                    "profession": item[1],
+                    "skills": item[0],
+                    "email": item[6],
+                })
+            return {
+                "status": "success",
+                "data": dict_user,
+                "detail": None
+            }
+    except Exception as e:
+        print(str(e))
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,
-            "detail": None
+            "detail": str(e)
         })

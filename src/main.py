@@ -9,6 +9,7 @@ from pages.router import router as router_base
 from projects.router import router as router_proj
 from user.router import router as router_user
 from friends.router import router as router_friends
+from message.router import router as router_message
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ app.include_router(router_user)
 app.include_router(router_base)
 app.include_router(router_proj)
 app.include_router(router_friends)
+app.include_router(router_message)
 
 
 fastapi_users = FastAPIUsers(

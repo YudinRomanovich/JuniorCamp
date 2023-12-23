@@ -1,14 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import insert, select, update, func
+from sqlalchemy import delete, insert, select, update, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from user.models import user
 from friends.models import friend
-from friends.schemas import FriendCreate
 from auth.base_config import current_user
 
 from database import get_async_session
-
+from user.router import get_specific_user
 
 
 router = APIRouter(
@@ -17,28 +16,98 @@ router = APIRouter(
 )
 
 
-@router.post("/friends/add/{user_id}")
-async def add_friend(
-    new_friend_id: int,
+@router.delete("/delete")
+async def delete_specific_friend(
+    deleted_friend_id: int,
     user=Depends(current_user),
-    session: AsyncSession=Depends(get_async_session)
+    session:AsyncSession=Depends(get_async_session)
 ):
     try:
-        stmt = update(friend).where(friend.c.user_id == user.id).values(
-            list_of_friends=func.array_append(friend.c.list_of_friends, new_friend_id)
+        stmt = (
+            update(friend).
+            where(friend.c.user_id == user.id).
+            values(list_of_friends=func.array_remove(friend.c.list_of_friends, deleted_friend_id))
         )
         await session.execute(stmt)
         await session.commit()
-
         return {
             "status": 200,
             "data": None,
-            "detail": "new friend add to your list"
+            "detail": "friend has been removed from your list",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={
+            "status": 200,
+            "data": str(e),
+            "detail": None
+        })
+
+
+@router.get("/")
+async def get_list_of_friends(
+
+    user=Depends(current_user),
+    session:AsyncSession=Depends(get_async_session)
+):
+    try:
+        stmt = select(friend).where(friend.c.user_id == user.id)
+        result = await session.execute(stmt)
+        friends_data = []
+        for item in result.all():
+            friends = item[2]
+            
+        for friend_id in friends:
+            result = await get_specific_user(user_id=friend_id, session=session)
+            friends_data.append(result["data"][0])
+
+
+        return {
+            "status": 200,
+            "data": friends_data,
+            "detail": None
         }
 
-
     except Exception as e:
-        print(e)
+        raise HTTPException(status_code=500, detail={
+            "status": "error",
+            "data": None,
+            "detail": str(e)
+        })
+
+
+@router.post("/add/{user_id}")
+async def add_friend(
+    new_friend_id: int,
+    c_user=Depends(current_user),
+    session: AsyncSession=Depends(get_async_session)
+):
+    try:
+        ex = select(user).where(user.c.id == new_friend_id)
+        res = await session.execute(ex)
+        user_res = res.scalar_one_or_none()
+
+        if user_res == None:
+            return {
+                "status": 400,
+                "data": None,
+                "detail": "user not exist"
+            }
+
+        else:
+
+            stmt = update(friend).where(friend.c.user_id == c_user.id).values(
+            list_of_friends=func.array_append(friend.c.list_of_friends, new_friend_id)
+            )
+            await session.execute(stmt)
+            await session.commit()
+
+            return {
+                "status": 200,
+                "data": None,
+                "detail": "new friend add to your list"
+            }
+        
+    except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,

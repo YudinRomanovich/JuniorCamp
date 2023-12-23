@@ -1,0 +1,39 @@
+{% extends "feed.html" %}
+
+{% block head %}
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .friend-card {
+            background-color: #303030;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+            animation-name: fade-in;
+            animation-duration: 0.5s;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="friends-container">
+        {% for friend in c_user %}
+            <div class="friend-card">
+                <h2>{{ friend.username }}</h2>
+                <p>Профессия: {{ friend.profession }}</p>
+                <p>Email: {{ friend.email }}</p>
+                <!-- Добавьте другие данные, которые вы хотите отобразить -->
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

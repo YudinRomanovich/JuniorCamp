@@ -1,7 +1,6 @@
-from sqlalchemy import ARRAY, Column, ForeignKey, Integer, String, Table
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy import ARRAY, Column, ForeignKey, Integer, Table
+from sqlalchemy.orm import relationship
 from database import metadata, Base
-from user.models import User
 
 
 friend = Table(
@@ -20,4 +19,3 @@ class Friend(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     list_of_friends = Column(ARRAY(Integer), default=[], nullable=False)
     user = relationship("User")
-

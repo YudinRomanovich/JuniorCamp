@@ -15,6 +15,7 @@ from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 from src.database import metadata
 from src.projects.models import *
 from src.friends.models import *
+from src.message.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

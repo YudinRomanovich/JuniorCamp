@@ -5,11 +5,13 @@ from fastapi.templating import Jinja2Templates
 from auth.base_config import current_user
 from projects.router import get_all_projects
 from user.router import get_specific_user
+from friends.router import get_list_of_friends
 
 router = APIRouter(
     prefix="",
     tags=["Pages"]
 )
+
 
 def get_user_username(user=Depends(current_user)) -> str:
     username = user.username
@@ -18,6 +20,10 @@ def get_user_username(user=Depends(current_user)) -> str:
 
 templates = Jinja2Templates(directory="templates")
 
+@router.get("/friends")
+async def get_friends_page(request: Request, c_user=Depends(get_list_of_friends), user=Depends(current_user)):
+
+    return templates.TemplateResponse("friends.html", {"request": request, "c_user": c_user["data"], "user": user})
 
 @router.get("/edit")
 async def get_edit_page(request: Request, user=Depends(current_user)):
@@ -71,5 +77,3 @@ async def get_account(request: Request, username: str, user=Depends(current_user
                 "data": None,
                 "detail": None
             }
-           
-        
