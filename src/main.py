@@ -13,7 +13,7 @@ from message.router import router as router_message
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(router_user)
 app.include_router(router_base)

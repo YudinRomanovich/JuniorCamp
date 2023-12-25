@@ -1,0 +1,27 @@
+from conftest import client
+
+def test_create_message():
+
+    response = client.post("/messages/send?to_user=1&new_message=test")
+
+    assert response.status_code == 200
+
+
+def test_get_messages():
+
+    response = client.get("/messages/")
+
+    assert response.status_code == 200
+
+
+def test_update_message():
+
+    response = client.put("/messages/edit/0?new_text_message=Test")
+
+    assert response.status_code == 200
+
+def test_delete_message():
+
+    response = client.delete("/messages/delete/1")
+
+    assert response.status_code == 200

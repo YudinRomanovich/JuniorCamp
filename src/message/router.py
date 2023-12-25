@@ -20,16 +20,28 @@ async def delete_message(
     session: AsyncSession=Depends(get_async_session)
 ):
     try:
-        stmt = delete(message).where(and_(message.c.from_id == user.id, message.c.message_id == id_message))
-        await session.execute(stmt)
-        await session.commit()
-        
-        return {
-            "status": 200,
-            "data": None,
-            "detail": "message delete success"
-        }
+
+        check_message = select(message).where(and_(message.c.from_id == user.id, message.c.message_id == id_message))
+        res = await session.execute(check_message)
     
+        if res.all():
+            stmt = delete(message).where(and_(message.c.from_id == user.id, message.c.message_id == id_message))
+            await session.execute(stmt)
+            await session.commit()
+            
+            return {
+                "status": 200,
+                "data": None,
+                "detail": "message delete success"
+            }
+        else:
+            return {
+                "status": 400,
+                "data": None,
+                "detail": "you not author of message"
+
+            }
+        
     except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": 500,
@@ -46,10 +58,26 @@ async def edit_message(
     session: AsyncSession=Depends(get_async_session)
 ):
     try:
+        check_message = select(message).where(
+            and_(message.c.from_id == user.id, message.c.message_id == id_message))
+        
+        result = await session.execute(check_message)
+
+        one_or_none = result.scalar_one_or_none()
+
+        if one_or_none == None:
+            return {
+                "status": 400,
+                "data": None,
+                "detail": "message not exist    "
+            }
+
         stmt = update(message).where(
             and_(message.c.from_id == user.id, message.c.message_id == id_message)).values(
                 message=new_text_message
             )
+        
+
         await session.execute(stmt)
         await session.commit()
 

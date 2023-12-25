@@ -11,7 +11,7 @@ router = APIRouter(
     tags=["User"]
 )
 
-
+# NEED TO FIX 
 @router.delete('/delete')
 async def delete_current_user(
     session: AsyncSession = Depends(get_async_session),
@@ -30,11 +30,11 @@ async def delete_current_user(
             "status" : 200
         }
 
-    except:
+    except Exception as e:
         raise HTTPException(status_code=500, detail={
                 "status": "error",
                 "data": None,
-                "detail": None
+                "detail": str(e)
             })
     
 
@@ -88,6 +88,12 @@ async def get_specific_user(
                     "profession": item[1],
                     "skills": item[0],
                     "email": item[6],
+                })
+            if not dict_user:
+                raise HTTPException(status_code=500, detail={
+                    "status": 500,
+                    "data": None,
+                    "detail": "user not exist"
                 })
             return {
                 "status": "success",
