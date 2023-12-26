@@ -1,0 +1,60 @@
+{% extends "feed.html" %}
+
+{% block head %}
+    <style>
+        .message-block {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer; /* Делаем курсор указателем */
+        }
+        .user-name {
+            font-weight: bold;
+        }
+        .message-content {
+            margin-bottom: 10px;
+        }
+        .message-date {
+            align-self: flex-end;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Получаем все блоки сообщений
+            const messageBlocks = document.querySelectorAll('.message-block');
+
+            // Добавляем обработчик событий клика к каждому блоку
+            messageBlocks.forEach((block, index) => {
+                block.addEventListener('click', () => {
+                    // Получаем ID пользователя из атрибута data-user-id блока
+                    const userId = block.getAttribute('data-user-id');
+                    // Переходим на страницу с подробной информацией о сообщении
+                    window.location.href = `/messages/${userId}`;
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+            {% set last_message_by_user = {} %}
+            {% for message in messages.data %}
+                {% set other_user = message.from if message.from != "you" else message.to %}
+                {% set _ = last_message_by_user.update({other_user: message}) %}
+            {% endfor %}
+            {% for c_user, message in last_message_by_user.items() %}
+                <div class="message-block" data-user-id="{{ message.user_id }}">
+                    <p class="user-name">{{ c_user }}</p>
+                    <p class="message-content">{{ message.message }}</p>
+                    <p class="message-date">{{ message.date.strftime('%d %b %Y') }}</p>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

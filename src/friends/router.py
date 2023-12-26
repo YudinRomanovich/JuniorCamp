@@ -45,7 +45,6 @@ async def delete_specific_friend(
 
 @router.get("/")
 async def get_list_of_friends(
-
     user=Depends(current_user),
     session:AsyncSession=Depends(get_async_session)
 ):
@@ -58,6 +57,7 @@ async def get_list_of_friends(
             
         for friend_id in friends:
             result = await get_specific_user(user_id=friend_id, session=session)
+            print(result["data"])
             friends_data.append(result["data"][0])
 
 

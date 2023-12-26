@@ -88,6 +88,7 @@ async def get_specific_user(
                     "profession": item[1],
                     "skills": item[0],
                     "email": item[6],
+                    "id": item[2],
                 })
             if not dict_user:
                 raise HTTPException(status_code=500, detail={
@@ -110,6 +111,7 @@ async def get_specific_user(
                     "profession": item[1],
                     "skills": item[0],
                     "email": item[6],
+                    "id": item[2],
                 })
             return {
                 "status": "success",

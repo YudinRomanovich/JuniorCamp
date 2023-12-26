@@ -8,7 +8,7 @@ from message.models import message
 from database import get_async_session
 
 router = APIRouter(
-    prefix="/messages",
+    prefix="/messages/api",
     tags=["Messages"]
 )
 
@@ -95,7 +95,7 @@ async def edit_message(
         })
 
 
-@router.get("/")
+@router.get("/get")
 async def get_messages(
         session: AsyncSession=Depends(get_async_session),
         user=Depends(current_user)
@@ -106,8 +106,12 @@ async def get_messages(
 
         message_list = []
 
-
         for item in res.all():
+            
+            if item.from_id == user.id:
+                user_id = item.to_id
+            else:
+                user_id = item.from_id
             
             from_user = await get_specific_user(user_id=item.from_id, session=session)
             to_user = await get_specific_user(user_id=item.to_id, session=session)
@@ -126,7 +130,8 @@ async def get_messages(
                 "from": from_username,
                 "to": to_username,
                 "message": item.message,
-                "date": item.date
+                "date": item.date,
+                "user_id": user_id
             })
         
 
@@ -153,21 +158,28 @@ async def get_messages(
         })
 
 
-@router.get("/{to_id}")
+@router.get("/get/{user_id}")
 async def get_specific_messages(
-        to_id: int,
+        user_id: int,
         session: AsyncSession=Depends(get_async_session),
         user=Depends(current_user)
 ):
     try:
-        stmt = select(message).where(and_(message.c.from_id == user.id, message.c.to_id == to_id))
+        stmt = select(message).where(or_(and_(message.c.from_id == user.id, message.c.to_id == user_id), and_(message.c.from_id == user_id, message.c.to_id == user.id)))
         result = await session.execute(stmt)
 
+        
         message_list = []
         for item in result.all():
+            if item.from_id == user.id:
+                user_id = item.to_id
+            else:
+                user_id = item.from_id
+
             message_list.append({
                 "message": item[3],
-                "date": item[4]
+                "date": item[4],
+                "user_id": user_id
             })
         if not message_list:
             return {

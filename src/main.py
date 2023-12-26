@@ -1,5 +1,6 @@
+import os
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi_users import FastAPIUsers
 from auth.manager import get_user_manager
@@ -13,7 +14,10 @@ from message.router import router as router_message
 
 app = FastAPI()
 
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+static_dir = os.path.join(os.path.dirname(__file__), 'static')
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+favicon_path = 'static/favicon.ico'
 
 app.include_router(router_user)
 app.include_router(router_base)
@@ -26,6 +30,11 @@ fastapi_users = FastAPIUsers(
     get_user_manager,
     [auth_backend],
 )
+
+
+@app.get('/favicon.ico', include_in_schema=False)
+async def favicon():
+    return FileResponse(favicon_path)
 
 
 @app.get("/")

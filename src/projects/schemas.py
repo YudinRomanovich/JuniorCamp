@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class ProjectCreate(BaseModel):
+    
     model_config = ConfigDict()
 
     id: int

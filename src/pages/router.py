@@ -6,6 +6,8 @@ from auth.base_config import current_user
 from projects.router import get_all_projects
 from user.router import get_specific_user
 from friends.router import get_list_of_friends
+from message.router import get_messages, get_specific_messages
+
 
 router = APIRouter(
     prefix="",
@@ -20,34 +22,60 @@ def get_user_username(user=Depends(current_user)) -> str:
 
 templates = Jinja2Templates(directory="templates")
 
+
+@router.get("/messages/{user_id}")
+async def get_dialogue_page(request: Request, user=Depends(current_user), c_messages=Depends(get_specific_messages)):
+    
+    return templates.TemplateResponse("dialogue.html", {"request": request, "messages": c_messages, "user": user})
+
+
+@router.get("/messages")
+async def get_messages_page(request: Request, messages=Depends(get_messages), user=Depends(current_user)):
+    
+    return templates.TemplateResponse("messages.html", {"request": request, "messages": messages, "user": user})
+
+
 @router.get("/friends")
 async def get_friends_page(request: Request, c_user=Depends(get_list_of_friends), user=Depends(current_user)):
 
     return templates.TemplateResponse("friends.html", {"request": request, "c_user": c_user["data"], "user": user})
 
+
 @router.get("/edit")
 async def get_edit_page(request: Request, user=Depends(current_user)):
+
     return templates.TemplateResponse("edit_profile.html", {"request": request, "user": user})
+
 
 @router.get("/projects")
 async def get_project_page(request: Request, projects=Depends(get_all_projects), user=Depends(current_user)):
+
     return templates.TemplateResponse("projects.html", {"request": request, "projects": projects["data"], "user": user})
+
 
 @router.get("/projects/new")
 async def get_create_project_page(request: Request, user=Depends(current_user)):
+
     return templates.TemplateResponse("project_create.html", {"request": request, "user": user})
+
 
 @router.get("/feed")
 async def get_base_page(request: Request, user=Depends(current_user)):
+
     return templates.TemplateResponse("feed.html", {"request": request, "user": user})
+
 
 @router.get("/register")
 def get_register_page(request: Request):
+
     return templates.TemplateResponse("register.html", {"request": request})
+
 
 @router.get("/login")
 def get_login_page(request: Request):
+
     return templates.TemplateResponse("login.html", {"request": request})
+
 
 @router.get("/validation")
 async def get_validation(email: str, password: str, user=Depends(current_user)):
@@ -60,6 +88,7 @@ async def get_validation(email: str, password: str, user=Depends(current_user)):
             "detail": "email or password dont valid",
             "data": None
         }
+
 
 @router.get("/{username}")
 async def get_account(request: Request, username: str, user=Depends(current_user), another_user=Depends(get_specific_user)):
