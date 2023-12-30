@@ -108,14 +108,14 @@
 
 {% for project in projects %}
 <div class="project-card">
-  <div class="details">
+  <div class="details"> 
     <h2>{{ project["name"] }}</h2>
     <p>{{ project["author_id"] }}</p>
     <p>{{ project["description"]|truncate(30, True, "…") }}</p>
     <p>Need: {{ project["needed_skills"] }}</p>
   </div>
   <div class="button-container">
-    <a href="#" class="button view-project">View Project</a>
+    <a href="/projects/{{project.id}}" class="button view-project">View Project</a>
   </div>
 </div>
 {% endfor %}

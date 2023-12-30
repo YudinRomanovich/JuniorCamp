@@ -119,7 +119,6 @@ async def add_friend(
 async def update_friends_list(
     session: AsyncSession=Depends(get_async_session)
 ):
-    # Тут нужна проверка на админа или нет я еще думаю
     try:
          # Получаем всех пользователей
         stmt_user = select(user)

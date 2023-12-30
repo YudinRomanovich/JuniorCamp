@@ -3,6 +3,11 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi_users import FastAPIUsers
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+from redis import asyncio as aioredis
+
 from auth.manager import get_user_manager
 from user.schemas import UserCreate, UserRead
 from auth.base_config import auth_backend
@@ -54,3 +59,9 @@ app.include_router(
     prefix="/auth",
     tags=["auth"],
 )
+
+
+@app.on_event("startup")
+async def startup():
+    redis = aioredis.from_url("redis://localhost")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")

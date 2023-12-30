@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi_cache.decorator import cache
 from sqlalchemy import delete, insert, select, update
 from database import get_async_session
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -95,6 +96,7 @@ async def edit_current_project(
 
 
 @router.get("/get")
+@cache(expire=60)
 async def get_all_projects(
     session: AsyncSession = Depends(get_async_session),
 ):
