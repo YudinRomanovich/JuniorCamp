@@ -90,19 +90,25 @@ async def get_validation(email: str, password: str, user=Depends(current_user)):
         }
 
 
+@router.get("/{username}/edit")
+async def get_edit_account(request: Request, user=Depends(current_user)):
+    
+    return templates.TemplateResponse("edit_profile.html", {"request": request, "user": user})
+    
+
 @router.get("/{username}")
 async def get_account(request: Request, username: str, user=Depends(current_user), another_user=Depends(get_specific_user)):
-        try:
-            if another_user["data"] is []:
-                return templates.TemplateResponse("account.html", {"request": request, "user": user})
-            elif another_user["data"][0]["username"] == user.username:
-                return templates.TemplateResponse("account.html", {"request": request, "user": user})
-            else:
-                return templates.TemplateResponse("another_user_account.html", {"request": request, "another_user": another_user["data"][0], "user": user})
-            
-        except:
-            return {
-                "status": "Error",
-                "data": None,
-                "detail": None
-            }
+    try:
+        if another_user["data"] is []:
+            return templates.TemplateResponse("account.html", {"request": request, "user": user})
+        elif another_user["data"][0]["username"] == user.username:
+            return templates.TemplateResponse("account.html", {"request": request, "user": user})
+        else:
+            return templates.TemplateResponse("another_user_account.html", {"request": request, "another_user": another_user["data"][0], "user": user})
+        
+    except:
+        return {
+            "status": "Error",
+            "data": None,
+            "detail": None
+        }

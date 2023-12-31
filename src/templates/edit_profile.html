@@ -1,0 +1,128 @@
+{% extends "feed.html" %}
+
+{% block head %}
+<style>
+    .profile-container {
+      display: flex;
+      align-items: center;
+      background-color: #303030;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      animation: fade-in 0.5s ease;
+    }
+    
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .profile-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+    
+    .profile-info {
+      font-size: 18px;
+    }
+    
+    .profile-info p {
+      margin-bottom: 10px;
+    }
+
+    .profile-info input {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    
+    .button.edit-profile {
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: #e44724;
+      color: #fff;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+    }
+    
+    .button.edit-profile:hover {
+      background-color: #bd3c1f;
+    }
+
+    .button.cancel-profile {
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: #ccc;
+      color: #fff;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button.cancel-profile:hover {
+      background-color: #999;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+    <div class="profile-container">
+    <img class="profile-image" src="{{ url_for('static', path='photo.jpg') }}" alt="Profile Image">
+    <form id="profile-form" class="profile-info">
+        <p style="font-weight: bold; color: #bd3c1f;"><input type="text" name="new_username" placeholder="Enter New Username" required></p>
+        <p><strong style="color: #fff;">Profession:</strong> <input type="text" name="new_profession" placeholder="Enter New Profession" required></p>
+        <p><strong style="color: #fff;">Skills:</strong> <input type="text" name="new_skills" placeholder="Enter New Skills" required></p>
+        <button type="submit" class="button edit-profile">Submit</button>
+        <button id="cancel-btn" type="button" class="button cancel-profile">Cancel</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('profile-form');
+      const cancelBtn = document.getElementById('cancel-btn');
+  
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+  
+        const formData = new FormData(form);
+        const queryParams = new URLSearchParams(formData).toString();
+        const url = '/edit?' + queryParams;
+  
+        fetch(url, {
+          method: 'PUT'
+        })
+          .then(response => {
+            if (response.ok) {
+              // Обработка успешного ответа от сервера
+              console.log('Данные успешно отправлены на сервер');
+              window.location.href = `/${formData.get('new_username')}`;
+            } else {
+              // Обработка ошибки от сервера
+              console.error('Произошла ошибка при отправке данных на сервер');
+            }
+          })
+          .catch(error => {
+            // Обработка ошибок сети или других проблем
+            console.error('Произошла ошибка:', error);
+          });
+      });
+  
+      cancelBtn.addEventListener('click', function() {
+        window.location.href = `/{{user.username}}`;
+      });
+    });
+  </script>
+  
+  
+{% endblock %}

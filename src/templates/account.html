@@ -62,7 +62,7 @@
     <p><strong style="color: #fff;">Profession:</strong> <span style="color: #fff;">{{ user.profession }}</span></p>
     <p><strong style="color: #fff;">Skills:</strong> <span style="color: #fff;">{{ user.skills }}</span></p>
     <p><strong style="color: #fff;">Email:</strong> <span style="color: #fff;">{{ user.email }}</span></p>
-    <a href="#" class="button edit-profile">Edit Profile</a>
+    <a href="/{{user.username}}/edit" class="button edit-profile">Edit Profile</a>
   </div>
 </div>
 {% endblock %}
