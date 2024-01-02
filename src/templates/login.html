@@ -6,35 +6,190 @@
     <link id="favicon" rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Login</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .center-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            animation-name: fade-in-out;
+            animation-duration: 3s;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        @keyframes fade-in-out {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes fade-in-right {
+            from {
+            opacity: 0;
+            transform: translateX(50px);
+            }
+            to {
+            opacity: 1;
+            transform: translateX(0);
+            }
+        }
+
+        @keyframes fade-in-left {
+            from {
+            opacity: 0;
+            transform: translateX(-50px);
+            }
+            to {
+            opacity: 1;
+            transform: translateX(0);
+            }
+        }
+
+        @keyframes fade-in-up {
+            from {
+            opacity: 0;
+            transform: translateY(-50px);
+            }
+            to {
+            opacity: 1;
+            transform: translateY(0);
+            }
+        }
+        
+        
+        /* Стили для класса "block text-sm font-bold mb-2 text-gray-700" */
+        .custom-class {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        /* Кастомный класс для инпутов */
+        .custom-input {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.375rem;
+            width: 100%;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            background-color: #303030;
+            color: white;
+            line-height: 1.25;
+            outline: none;
+        }
+
+        .custom-input:focus {
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+
+        .custom-container {
+            animation-name: fade-in-up;
+            animation-duration: 1s;
+            width: 33.33%; /* Эквивалентно w-1/3 */
+            background-color: rgba(0, 0, 0, 0.2); /* Эквивалентно bg-black-200 */
+            padding: 2rem; /* Эквивалентно p-8 */
+            color: #303030;
+        }
+
+        /* Отдельный CSS класс для кнопки на основе предоставленного кода */
+        .custom-button {
+            animation-name: fade-in-left;
+            animation-duration: 1s;
+            color: #ffffff; /* Эквивалентно text-white */
+            font-weight: bold; /* Эквивалентно font-bold */
+            padding-top: 0.5rem; /* Эквивалентно py-2 */
+            padding-bottom: 0.5rem; /* Эквивалентно py-2 */
+            padding-left: 1rem; /* Эквивалентно px-4 */
+            padding-right: 1rem; /* Эквивалентно px-4 */
+            border-radius: 0.375rem; /* Эквивалентно rounded */
+            border: 1px solid red; /* Убирает границу */
+            outline: none; /* Убирает контур фокуса */
+        }
+
+        .custom-button:hover {
+            border: 1.5px solid rgb(222, 0, 0);
+        }
+
+        /* Отдельный CSS класс для элемента на основе предоставленного кода */
+        .custom-element {
+            animation-name: fade-in-right;
+            animation-duration: 1s;
+            display: inline-block; /* Эквивалентно inline-block */
+            vertical-align: baseline; /* Эквивалентно align-baseline */
+            font-weight: bold; /* Эквивалентно font-bold */
+            font-size: 0.875rem; /* Эквивалентно text-sm */
+            color: whitesmoke /* Эквивалентно text-blue-500 */
+        }
+
+        .custom-element-reg {
+            animation-name: fade-in-right;
+            animation-duration: 1s;
+            display: inline-block; /* Эквивалентно inline-block */
+            vertical-align: baseline; /* Эквивалентно align-baseline */
+            font-weight: bold; /* Эквивалентно font-bold */
+            font-size: 0.875rem; /* Эквивалентно text-sm */
+            color: red /* Эквивалентно text-blue-500 */
+        }
+
+        .custom-element-reg:hover {
+            color: rgb(222, 0, 0); /* Эквивалентно hover:text-blue-800 */
+        }
+
+    </style>
 </head>
 
 <body class="flex justify-center items-center h-screen">
+    <div class="center-message">
+        <p>Junior<span class="text-red-500 hover:text-red-800">Camp</span></p>
+    </div>
     
-    <div class="w-1/3 bg-white-200 p-8">
+    <div class="custom-container" id="login-form" style="display: none;">
         <!-- Поля регистрации -->
-        <form>
+        <form id="login-form">
             <div class="mb-4">
-                <label class="block text-sm font-bold mb-2 text-gray-700" for="email">Email:</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Введите email">
+                <label class="custom-class" for="email">Email:</label>
+                <input class="custom-input" id="email" type="email" placeholder="Введите email">
             </div>
             <div class="mb-4">
-                <label class="block text-sm font-bold mb-2 text-gray-700" for="password">Пароль:</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Введите пароль">
+                <label class="custom-class" for="password">Пароль:</label>
+                <input class="custom-input" id="password" type="password" placeholder="Введите пароль">
             </div>
             <div class="flex items-center justify-between mb-4">
-                <button id="loginButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <button id="loginButton" class="custom-button" type="button">
                     Войти
                 </button>
-                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+                <a class="custom-element" href="#">
                     Забыли пароль?
                 </a>
             </div>
             <div>
-                <p class="text-sm text-gray-600 mb-2">Нет аккаунта? <a href="/register" class="text-blue-500 hover:text-blue-800">Зарегистрируйтесь здесь</a></p>
+                <p class="custom-element">Нет аккаунта? <a href="/register" class="custom-element-reg">Зарегистрируйтесь здесь</a></p>
             </div>
         </form>
     </div>
     <script>
+        // Ожидание, пока анимация завершится
+        setTimeout(function() {
+            var message = document.querySelector('.center-message');
+            var form = document.getElementById('login-form');
+            message.style.display = 'none';
+            form.style.display = 'block';
+        }, 4000); // Задержка в миллисекундах, соответствующая продолжительности анимации
         document.getElementById("loginButton").addEventListener("click", function() {
             var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
