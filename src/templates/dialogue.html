@@ -2,27 +2,44 @@
 
 {% block head %}
     <style>
+
         /* Ваш CSS-код */
+
+        @keyframes fade-in {
+            from {
+            opacity: 0;
+            transform: translateY(35px);
+            }
+            to {
+            opacity: 1;
+            transform: translateY(0);
+            }
+        }
         .chat-container {
             width: 100%; /* Растягиваем контейнер по ширине */
             max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
-            border: 1px solid #ccc;
+            background-color: #303030;
             border-radius: 5px;
+
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             /* Добавляем стиль для прокрутки контейнера */
             overflow-y: auto;
             max-height: 500px; /* Задаем максимальную высоту контейнера */
         }
         .message {
-            background-color: #f2f2f2;
+            animation-name: fade-in;
+            animation-duration: 0.5s;
+            background-color: #303030;
             padding: 10px;
+            border: 1px solid #666;
             margin-bottom: 10px;
             border-radius: 5px;
+            color: white;
         }
         .message.from-me {
-            background-color: #dcf8c6;
+            background-color: #303030;
         }
         .message-content {
             margin: 0;
@@ -37,10 +54,11 @@
             align-items: center;
         }
         .chat-input input {
+            color: white;
+            background-color: #303030;
             flex-grow: 2; /* Увеличьте это значение, чтобы увеличить ширину поля ввода */
             max-width: 100%; /* Растягиваем поле ввода на всю доступную ширину */
             padding: 20px; /* Увеличиваем внутренний отступ */
-            border: 1px solid #ccc;
             border-radius: 5px;
             margin-right: 10px;
             font-size: 16px; /* Увеличиваем размер шрифта */
@@ -115,8 +133,8 @@
     <div class="chat-input">
         <!-- Здесь можно добавить форму для отправки нового сообщения -->
         <form id="chat-form">
-            <input type="text" id="message-input" placeholder="Введите ваше сообщение">
-            <button type="submit">Отправить</button>
+            <input type="text" id="message-input" placeholder="Enter your message">
+            <button type="submit">Send</button>
         </form>
         <input type="hidden" id="message-user-id" value="{{ messages.data[0].user_id }}">
     </div>

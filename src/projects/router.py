@@ -9,7 +9,7 @@ from auth.base_config import current_user
 
 
 router = APIRouter(
-    prefix="/projects",
+    prefix="/projects/api",
     tags=["Projects"]
 )
 
@@ -135,7 +135,8 @@ async def get_specific_project(project_id: int, session: AsyncSession = Depends(
                 "id": item[0],
                 "name": item[1],
                 "description": item[2],
-                "author_id": item[3]
+                "author_id": item[3],
+                "needed_skills": item[4]
             })
         return {
             "status": "200",

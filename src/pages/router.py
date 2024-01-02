@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from auth.base_config import current_user
-from projects.router import get_all_projects
+from projects.router import get_all_projects, get_specific_project
 from user.router import get_specific_user
 from friends.router import get_list_of_friends
 from message.router import get_messages, get_specific_messages
@@ -51,6 +51,12 @@ async def get_edit_page(request: Request, user=Depends(current_user)):
 async def get_project_page(request: Request, projects=Depends(get_all_projects), user=Depends(current_user)):
 
     return templates.TemplateResponse("projects.html", {"request": request, "projects": projects["data"], "user": user})
+
+
+@router.get("/projects/view/{project_id}")
+async def get_view_project_page(request: Request, project=Depends(get_specific_project), user=Depends(current_user)):
+
+    return templates.TemplateResponse("project_view.html", {"request": request, "project": project["data"], "user": user})
 
 
 @router.get("/projects/new")

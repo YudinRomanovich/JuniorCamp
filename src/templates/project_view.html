@@ -1,0 +1,35 @@
+{% extends "feed.html" %}
+
+{% block head %}
+<style>
+    /* CSS стили */
+    .project {
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background-color: #303030; /* Цвет фона для блока с информацией о проекте */
+      color: #FFF; /* Цвет текста */
+    }
+
+    .project-name {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .project-description {
+      font-size: 18px;
+    }
+
+    .needed-skills {
+      font-size: 16px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="project">
+    <div class="project-name">{{project.name}}</div>
+    <div class="project-description">{{project.description}}</div>
+    <div class="needed-skills">{{project.needed_skills}}</div>
+  </div>
+{% endblock %}

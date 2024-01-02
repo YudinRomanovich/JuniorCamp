@@ -52,11 +52,12 @@
   background-color: #bd3c1f;
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 {% endblock %}
 
 {% block content %}
-<div class="profile-container">
-  <img class="profile-image" src="{{ url_for('static', path='photo.jpg') }}" alt="Profile Image">
+<div class="profile-container" id="profile-container">
+  <img class="profile-image" src="{{ url_for('static', path='photo.jpg') }}" alt="Profile Image" id="profile-image">
   <div class="profile-info">
     <p style="font-weight: bold; color: #bd3c1f;">{{ user.username }}</p>
     <p><strong style="color: #fff;">Profession:</strong> <span style="color: #fff;">{{ user.profession }}</span></p>
@@ -65,5 +66,26 @@
     <a href="/{{user.username}}/edit" class="button edit-profile">Edit Profile</a>
   </div>
 </div>
+
+<script>
+  // Анимация появления контейнера профиля
+  anime({
+    targets: '#profile-container',
+    opacity: [0, 1],
+    translateY: [-20, 0],
+    duration: 500,
+    easing: 'easeOutSine'
+  });
+
+  // Анимация при наведении на изображение профиля
+  document.getElementById('profile-image').addEventListener('mouseover', function() {
+    anime({
+      targets: '#profile-image',
+      rotate: '1turn',
+      duration: 1000,
+      easing: 'easeInOutQuad'
+    });
+  });
+</script>
 {% endblock %}
 

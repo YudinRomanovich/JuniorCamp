@@ -7,19 +7,41 @@
     <script src="https://cdn.tailwindcss.com"></script>
     {% block head %}{% endblock %}
     <title>Junior Camp</title>
+    <style>
+        body {
+            background: #000;
+            overflow: auto;
+        }
+
+        .star {
+            position: fixed;
+            background: #FFF;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+    </style>
 </head>
 <body>
     <nav>
         <ul class="flex justify-between text-3xl my-3">
             <ul class="flex ml-10">
                 <a href="/feed" class="text-red-500 hover:text-red-800">
-                    <span class="text-black">Junior</span>Camp
+                    <span class="text-white">Junior</span>Camp
                 </a>
+                <div class="flame"></div>
             </ul>
             <ul class="flex gap-5 mr-10">
-                <li><a href="/{{user.username}}" class="text-red-500 hover:text-black-800">account</a></li>
+                <li><a href="/{{user.username}}" class="text-red-500 hover:text-red-800">account</a></li>
                 <li>
-                    <a href="/login" class="text-black-500 hover:text-black-800">logout</a>
+                    <a href="/login" class="text-white">logout</a>
                 </li>
             </ul>
         </ul>
@@ -45,6 +67,19 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script>
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(star);
+        }
 
+        for (let i = 0; i < 100; i++) {
+            createStar();
+        }
+    </script>
 </body>
 </html>
