@@ -1,4 +1,0 @@
-INFO:     127.0.0.1:39812 - "GET /messages/get HTTP/1.1" 422 Unprocessable Entity
-INFO:     127.0.0.1:59076 - "GET /messages/get HTTP/1.1" 422 Unprocessable Entity
-INFO:     127.0.0.1:59076 - "GET /messages/get HTTP/1.1" 422 Unprocessable Entity
-INFO:     127.0.0.1:59076 - "GET /messages/get HTTP/1.1" 422 Unprocessable Entity
