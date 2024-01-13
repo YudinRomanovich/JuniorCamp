@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi_users import FastAPIUsers
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
+# from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
 
 from auth.manager import get_user_manager

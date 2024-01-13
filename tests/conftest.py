@@ -3,6 +3,8 @@ from typing import AsyncGenerator
 
 import pytest
 from fastapi.testclient import TestClient
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
@@ -44,7 +46,6 @@ def event_loop(request):
     loop.close()
 
 client = TestClient(app)
-
 
 @pytest.fixture(scope='session')
 async def ac() -> AsyncGenerator[AsyncClient, None]:

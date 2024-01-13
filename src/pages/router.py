@@ -1,7 +1,8 @@
 import bcrypt
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from fastapi_cache.decorator import cache
 from auth.base_config import current_user
 from projects.router import get_all_projects, get_specific_project
 from user.router import get_specific_user
@@ -77,10 +78,12 @@ def get_register_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
 
-@router.get("/login")
+@router.get("/login", response_class=HTMLResponse)
 def get_login_page(request: Request):
-
-    return templates.TemplateResponse("login.html", {"request": request})
+    html_content = templates.TemplateResponse("login.html", {"request": request}).body
+    response = HTMLResponse(content=html_content)
+    response.headers["Cache-Control"] = "max-age=3600"
+    return response
 
 
 @router.get("/validation")

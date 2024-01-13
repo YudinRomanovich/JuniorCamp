@@ -1,3 +1,4 @@
+
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_cache.decorator import cache
 from sqlalchemy import delete, insert, select, update
@@ -101,27 +102,20 @@ async def get_all_projects(
     session: AsyncSession = Depends(get_async_session),
 ):
     try:
-        result = await session.execute(select(project.c.id, project.c.name, project.c.description, project.c.author_id, project.c.needed_skills))
-        dict_result = []
-        for item in result.all():
-            dict_result.append({
-                "id": item[0],
-                "name": item[1],
-                "description": item[2],
-                "author_id": item[3],
-                "needed_skills": item[4],
-            })
-         
+        query = select(project.c.id, project.c.name, project.c.description, project.c.author_id, project.c.needed_skills)
+        result = await session.execute(query)
+        dict_result = [dict(row) for row in result.mappings().all()]
+
         return {
             "status": "200",
             "data": dict_result,
             "detail": None
         }
-    except Exception:
+    except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,
-            "detail": None
+            "detail": str(e)
         })
 
 

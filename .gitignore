@@ -4,3 +4,4 @@ src/__pycache__
 alembic/__pycache__
 .pytest_cache
 __pycache__/
+.vscode

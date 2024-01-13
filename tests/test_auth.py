@@ -62,7 +62,6 @@ def test_login():
 def test_update_user():
 
     access_token = get_access_token()
-    print(f"Access Token: {access_token}")
 
     client.cookies.update({"junior_cookie": access_token})
 
